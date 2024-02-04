@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, ChangeEventHandler, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { Box, Button, Flex } from '@chakra-ui/react';
 import SingleSelect from '../components/SingleSelect';
@@ -27,23 +27,24 @@ export default function RegisterVisit() {
   const handleDateChange = (date: Date) => {
     setStartDate(date);
   };
-  const handleChangeSelectDoctor = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedDoctor(e.target.value);
+  const handleChangeSelectDoctor: ChangeEventHandler = (e: ChangeEvent) => {
+    // Property 'value' does not exist on type 'EventTarget & Element'.ts(2339)
+    setSelectedDoctor(e.currentTarget.value);
   };
-  const handleChangeSelectUser = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUser(e.target.value);
+  const handleChangeSelectUser: ChangeEventHandler = (e: ChangeEvent) => {
+    //Property 'value' does not exist on type 'EventTarget & Element'.ts(2339)
+    setSelectedUser(e.currentTarget.value);
   };
-  const handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
+  const handleSubmit: ChangeEventHandler = (e: ChangeEvent) => {
     e.preventDefault();
 
     if (selectedDoctor.length === 0 || selectedUser.length === 0) return;
 
-    const newArrayDoctors = doctors.filter((el) => el.name === selectedDoctor);
-    const newArrayUserUser = usersVisits.filter((el) => el.name === selectedUser);
-    //jak ladniej zapisac push?tak to nie dziala
-    //const mwArr = [...newArrayDoctors[0].excludedDates, (startDate);]
+    const filteredArraySelectedDoctor = doctors.filter((el) => el.name === selectedDoctor);
+    const filteredArraySelectedUser = usersVisits.filter((el) => el.name === selectedUser);
 
-    newArrayDoctors[0].excludedDates.push(startDate);
+    [...filteredArraySelectedDoctor[0].excludedDates, startDate];
+
     const idHelper = Math.floor(Math.random() * 10000);
     const userVisitObj = {
       doctor: selectedDoctor,
@@ -51,9 +52,8 @@ export default function RegisterVisit() {
       id: idHelper,
       comment: '',
     };
-    //cos zamiast push?
 
-    newArrayUserUser[0].visits.push(userVisitObj);
+    [filteredArraySelectedUser[0].visits, userVisitObj];
 
     //na pozniej dla mnie (mw) walidacja ustawionego czasu, np 14:58
 
@@ -71,7 +71,6 @@ export default function RegisterVisit() {
               text={'Select user:'}
               textPlaceholder={'list of users'}
               arrayProps={usersVisits}
-              // jak mu pomoc z ts?
               onChangeProp={handleChangeSelectUser}
               valueProp={selectedUser}
             />
@@ -79,7 +78,6 @@ export default function RegisterVisit() {
               text={'Select doctor: '}
               textPlaceholder={'list of doctors'}
               arrayProps={databaseDoctors}
-              // jak mu pomoc z ts?
               onChangeProp={handleChangeSelectDoctor}
               valueProp={selectedDoctor}
             />
@@ -87,9 +85,9 @@ export default function RegisterVisit() {
               text={'Select date: '}
               selected={startDate}
               onChange={handleDateChange}
-              // jak mu pomoc z ts?
-              excludeTimes={handleExcludedTimes(selectedDoctor)}
+              excludeTimes={() => handleExcludedTimes(selectedDoctor)}
             />
+            {/* onCLick problem z ts */}
             <Button type='submit' onClick={handleSubmit}>
               register visit
             </Button>

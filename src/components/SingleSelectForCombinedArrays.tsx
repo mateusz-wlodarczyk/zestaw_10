@@ -19,15 +19,14 @@ export default function SingleSelectForCombinedArrays({
     <FormControl>
       <FormLabel>{text}</FormLabel>
       <Select placeholder={textPlaceholder} onChange={onChangeProp} value={valueProp}>
-        {arrayProps !== undefined &&
-          arrayProps.map((el) => {
-            if (el.date < new Date() && el.comment.length === 0)
-              return (
-                <option key={el.id} value={el.doctor + ' ' + el.id}>
-                  visit: #{el.id} doctor: {el.doctor}
-                </option>
-              );
-          })}
+        {arrayProps.map((el) => {
+          if (el.date < new Date() && el.comment.length === 0)
+            return (
+              <option key={el.id} value={el.doctor + ' ' + el.id}>
+                visit: #{el.id} doctor: {el.doctor}
+              </option>
+            );
+        })}
       </Select>
     </FormControl>
   );

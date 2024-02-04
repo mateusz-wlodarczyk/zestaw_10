@@ -1,5 +1,5 @@
-import { FormControl, FormLabel, Select, Textarea } from '@chakra-ui/react';
-import React from 'react';
+import { FormControl, FormLabel, Textarea } from '@chakra-ui/react';
+import React, { ChangeEvent } from 'react';
 
 export default function SingleTextArea({
   text,
@@ -8,12 +8,11 @@ export default function SingleTextArea({
 }: {
   text: string;
   valueProp: string;
-  handleOnChange: (e: React.ChangeEventHandler<HTMLTextAreaElement>) => void;
+  handleOnChange: (e: ChangeEvent) => void;
 }) {
   return (
     <FormControl>
       <FormLabel>{text}</FormLabel>
-      {/* ts + onChange, jak to ogarnac? */}
       <Textarea onChange={handleOnChange} value={valueProp}></Textarea>
     </FormControl>
   );

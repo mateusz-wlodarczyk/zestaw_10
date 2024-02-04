@@ -5,14 +5,11 @@ import { welcomeText } from '../utils/constants';
 export default function Welcome() {
   return (
     <Box sx={{ margin: '35px', width: '600px' }}>
-      <Text sx={{ fontSize: '20px', marginTop: '20px', fontWeight: 'bold' }}>
+      <Text sx={{ fontSize: '20px', marginTop: '20px', fontWeight: 'bold', marginBottom: '75px' }}>
         {welcomeText.header}
       </Text>
-      <br />
-      <br />
-      <br />
-      <Text> {welcomeText.paragraph_1}</Text>
-      <br /> <br /> <br />
+      <Text sx={{ marginBottom: '75px' }}> {welcomeText.paragraph_1}</Text>
+
       <Text> {welcomeText.paragraph_2}</Text>
     </Box>
   );
