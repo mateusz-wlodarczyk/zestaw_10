@@ -39,6 +39,7 @@ export default function RegisterVisit() {
     e.preventDefault();
 
     if (selectedDoctor.length === 0 || selectedUser.length === 0) return;
+    // if (startDate.getMinutes() !== 0 || startDate.getMinutes() !== 30) return;
 
     const filteredArraySelectedDoctor = doctors.filter((el) => el.name === selectedDoctor);
     const filteredArraySelectedUser = usersVisits.filter((el) => el.name === selectedUser);
@@ -54,8 +55,6 @@ export default function RegisterVisit() {
     };
 
     [filteredArraySelectedUser[0].visits, userVisitObj];
-
-    //na pozniej dla mnie (mw) walidacja ustawionego czasu, np 14:58
 
     setSelectedDoctor('');
     setSelectedUser('');

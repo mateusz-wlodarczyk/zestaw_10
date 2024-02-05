@@ -75,7 +75,6 @@ export default function CommentVisit() {
             text={'Select user:'}
             textPlaceholder={'list of users'}
             arrayProps={databaseUsersVisits}
-            //ts sie swieci dla: onChangeProp
             onChangeProp={handleChangeSelectedUser}
             valueProp={selectedUser}
           />
