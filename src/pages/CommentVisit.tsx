@@ -1,6 +1,6 @@
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ChangeEvent, ChangeEventHandler, useState } from 'react';
+import { ChangeEvent, ChangeEventHandler, MouseEventHandler, useState } from 'react';
 import { usersVisits } from '../utils/data';
 import { Box, Button, Flex, FormLabel, Select } from '@chakra-ui/react';
 import { FlexForLabelSxStyle, labelSxStyle, mainBoxSxStyle } from './RegisterVisit';
@@ -15,15 +15,13 @@ export default function CommentVisit() {
   const [visitArray, setVisitArray] = useState<string[]>();
   const [textForComment, setTextForComment] = useState('');
 
-  const handleChangeSelectedUser: ChangeEventHandler = (e: ChangeEvent) => {
-    // Property 'value' does not exist on type 'EventTarget & Element'.ts(2339)
+  const handleChangeSelectedUser: ChangeEventHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     if (e.currentTarget.value.length === 0) {
       setSelectedVisitForUser([]);
       return;
     } else {
-      // Property 'value' does not exist on type 'EventTarget & Element'.ts(2339)
       setSelectedUser(e.currentTarget.value);
-      // Property 'value' does not exist on type 'EventTarget & Element'.ts(2339)
+
       const newArrayUser = usersVisits.filter((el) => el.name === e.currentTarget.value);
       setSelectedVisitForUser(newArrayUser[0].visits);
       if (newArrayUser[0].visits.length === 0) {
@@ -34,18 +32,18 @@ export default function CommentVisit() {
     }
   };
 
-  const handleChangeSelectedVisitForUser: ChangeEventHandler = (e: ChangeEvent) => {
-    // Property 'value' does not exist on type 'EventTarget & Element'.ts(2339)
+  const handleChangeSelectedVisitForUser: ChangeEventHandler = (
+    e: ChangeEvent<HTMLSelectElement>,
+  ) => {
     const newArrayVisit = e.currentTarget.value.split(' ');
     if (newArrayVisit.length === 0 || e.currentTarget.value.length === 0) return;
     setVisitArray(newArrayVisit);
   };
 
-  const handleTextAreaChange: ChangeEventHandler = (e: ChangeEvent) => {
-    // Property 'value' does not exist on type 'EventTarget & Element'.ts(2339)
+  const handleTextAreaChange: ChangeEventHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setTextForComment(e.currentTarget.value);
   };
-  const handleSubmitComment: ChangeEventHandler = (e: ChangeEvent) => {
+  const handleSubmitComment: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
 
     if (textForComment === '' || visitArray === undefined || selectedVisitForUser === undefined)
@@ -102,7 +100,6 @@ export default function CommentVisit() {
             valueProp={textForComment}
             handleOnChange={handleTextAreaChange}
           />
-          {/* onClick sie swieci problem z ts */}
           <Button type='submit' onClick={handleSubmitComment}>
             add comment
           </Button>

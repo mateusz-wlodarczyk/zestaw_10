@@ -11,7 +11,7 @@ export default function SingleDataPicker({
   text: string;
   selected: Date;
   onChange: (date: Date) => void;
-  excludeTimes: (doctor: string) => void;
+  excludeTimes: Date[];
 }) {
   return (
     <Flex sx={FlexForLabelSxStyle}>

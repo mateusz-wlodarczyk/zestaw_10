@@ -1,4 +1,10 @@
-import React, { ChangeEvent, ChangeEventHandler, useState } from 'react';
+import React, {
+  ChangeEvent,
+  ChangeEventHandler,
+  MouseEventHandler,
+  useMemo,
+  useState,
+} from 'react';
 import DatePicker from 'react-datepicker';
 import { Box, Button, Flex } from '@chakra-ui/react';
 import SingleSelect from '../components/SingleSelect';
@@ -18,7 +24,7 @@ export default function RegisterVisit() {
   const handleExcludedTimes = (doctor: string) => {
     const newArray = doctors.filter((el) => el.name === doctor);
     if (newArray.length === 0) {
-      return;
+      return [];
     } else {
       return newArray[0].excludedDates;
     }
@@ -27,19 +33,19 @@ export default function RegisterVisit() {
   const handleDateChange = (date: Date) => {
     setStartDate(date);
   };
-  const handleChangeSelectDoctor: ChangeEventHandler = (e: ChangeEvent) => {
+  const handleChangeSelectDoctor: ChangeEventHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     // Property 'value' does not exist on type 'EventTarget & Element'.ts(2339)
     setSelectedDoctor(e.currentTarget.value);
   };
-  const handleChangeSelectUser: ChangeEventHandler = (e: ChangeEvent) => {
+  const handleChangeSelectUser: ChangeEventHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     //Property 'value' does not exist on type 'EventTarget & Element'.ts(2339)
     setSelectedUser(e.currentTarget.value);
   };
-  const handleSubmit: ChangeEventHandler = (e: ChangeEvent) => {
+  const handleSubmit: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
 
     if (selectedDoctor.length === 0 || selectedUser.length === 0) return;
-    // if (startDate.getMinutes() !== 0 || startDate.getMinutes() !== 30) return;
+    if (startDate.getMinutes() !== 0 || startDate.getMinutes() !== 30) return;
 
     const filteredArraySelectedDoctor = doctors.filter((el) => el.name === selectedDoctor);
     const filteredArraySelectedUser = usersVisits.filter((el) => el.name === selectedUser);
@@ -60,6 +66,10 @@ export default function RegisterVisit() {
     setSelectedUser('');
     setStartDate(new Date());
   };
+
+  const excludedTimes = useMemo(() => {
+    return handleExcludedTimes(selectedDoctor);
+  }, [selectedDoctor]);
 
   return (
     <Box sx={mainBoxSxStyle}>
@@ -84,9 +94,8 @@ export default function RegisterVisit() {
               text={'Select date: '}
               selected={startDate}
               onChange={handleDateChange}
-              excludeTimes={() => handleExcludedTimes(selectedDoctor)}
+              excludeTimes={excludedTimes}
             />
-            {/* onCLick problem z ts */}
             <Button type='submit' onClick={handleSubmit}>
               register visit
             </Button>
